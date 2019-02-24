@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+
+
+	<!-- Success -->
+	<div th:fragment="success" th:if="${success != null}" class="row">
+		<div class="col-12">
+			<div class="bg-success rounded mb-4 p-2">
+				<p class="text-white text-center mb-0" th:text="${success}"></p>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- Search -->
+	<div th:fragment="search">
+		<hr class="mb-0 mt-0" />
+		<form th:action="@{__${baseUrl}__}" th:with="string = ${#request.getParameter('name')}" method="get" class="mb-3 mt-3">
+			<div class="form-row">
+				<div class="input-group col-12">
+					<input type="text" class="form-control" th:value="${string}" th:placeholder="#{form.placeholder.search}" name="name" />
+					<div class="input-group-append">
+						<a th:href="@{__${baseUrl}__}" class="btn btn-danger" th:classappend="${string == null OR string == ''} ? disabled" th:text="#{keyword.clear}">Clear</a>
+						<input type="submit" class="btn btn-primary" th:value="#{keyword.search}" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	
+	
+	<!-- Pagination -->
+	<ul th:fragment="pagination" th:unless="${page.content.empty}" th:with="url = ${#httpServletRequest.requestURL}" class="pagination justify-content-center mb-0 mt-4 mb-4">
+
+		<!-- Previous Page -->
+		<li th:if="${page.hasPrevious()}" class="page-item"><a class="page-link" th:text="#{keyword.prev}" th:href="@{__${url}__(name = ${#request.getParameter('name')}, page = ${page.number - 1}, size = ${page.size})}">Prev</a></li>
+		<li th:unless="${page.hasPrevious()}" class="page-item disabled"><span class="page-link" th:text="#{keyword.prev}">Prev</span></li>
+		
+		<!-- Page Numbers -->
+		<th:block th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
+			<li th:if="${page.number == i}" class="page-item active"><span class="page-link">[[${i} + 1]]</span></li>
+			<li th:unless="${page.number == i}" class="page-item"><a class="page-link" th:href="@{__${url}__(name = ${#request.getParameter('name')}, page = ${i}, size = ${page.size})}">[[${i} + 1]]</a></li>
+		</th:block>
+		
+		<!-- Next Page -->
+		<li th:if="${page.hasNext()}" class="page-item"><a class="page-link" th:text="#{keyword.next}" th:href="@{__${url}__(name = ${#request.getParameter('name')}, page = ${page.number + 1}, size = ${page.size})}">Next</a></li>
+		<li th:unless="${page.hasNext()}" class="page-item disabled"><span class="page-link" th:text="#{keyword.next}">Next</span></li>
+		
+	</ul>
+	
+	
+	
+	<!-- Header Front -->
+	<header th:fragment="headerFront" id="header" class="bg-dark">
+		
+		<div id="nav" class="pb-2 pt-2">
+			<div class="container">
+				<div class="row">
+					<nav class="col-sm-12 navbar navbar-expand-sm">
+						<a class="navbar-brand text-white" th:href="@{/}" th:text="#{header.title}">Spring Blog</a>
+						<button class="navbar-toggler text-uppercase" type="button" data-toggle="collapse" data-target="#nav-main"><span class="navbar-toggler-icon"></span></button>
+						<div class="collapse navbar-collapse mt-2 mt-sm-0" id="nav-main">
+							<ul class="navbar-nav ml-auto">
+								<li class="nav-item"><a class="nav-link text-white" th:href="@{/}" th:text="#{header.menu.home}">Home</a></li>
+								<li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link text-white" th:href="@{/auth/login}" th:text="#{header.menu.login}">Login</a></li>
+								<li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link text-white" th:href="@{/auth/register}" th:text="#{header.menu.register}">Register</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	
+	</header>
+	
+	
+	
+	<!-- Header Admin -->
+	<header th:fragment="headerAdmin" id="header" class="bg-dark">
+		
+		<div id="nav" class="pb-2 pt-2">
+			<div class="container">
+				<div class="row">
+					<nav class="col-sm-12 navbar navbar-expand-sm">
+						<a class="navbar-brand text-white" th:href="@{/}" th:text="#{header.title}">Spring Blog</a>
+						<button class="navbar-toggler text-uppercase" type="button" data-toggle="collapse" data-target="#nav-main"><span class="navbar-toggler-icon"></span></button>
+						<div class="collapse navbar-collapse mt-2 mt-sm-0" id="nav-main">
+							<ul class="navbar-nav ml-auto">
+								<li class="nav-item"><a class="nav-link text-white" th:href="@{/admin}" th:text="#{header.menu.admin.dashboard}">Dashboard</a></li>
+								<li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/categories}" th:text="#{header.menu.admin.category}">Categories</a></li>
+								<li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/posts}" th:text="#{header.menu.admin.post}">Posts</a></li>
+								<li class="nav-item"><a class="nav-link text-white" th:href="@{/admin/comments}" th:text="#{header.menu.admin.comment}">Comments</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	
+	</header>
+	
+	
+	
+	<!-- User -->
+	<div th:fragment="userInfo" class="bg-secondary p-2" sec:authorize="isAuthenticated()">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 d-flex">
+					<span class="text-white mb-auto mt-auto">Currently logged in as <span class="font-weight-bold" th:text="${#authentication.getPrincipal().getUsername()}">admin</span></span>
+				</div>
+				<div class="col-6">
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" class="btn btn-danger text-white float-right ml-2" th:value="#{keyword.logout}" />
+					</form>
+					<a class="btn btn-success text-white float-right ml-2" sec:authorize="hasRole('Admin')" th:href="@{/admin}" th:text="#{header.menu.admin}">Admin</a>
+					<a class="btn btn-primary text-white float-right ml-2" th:href="@{/}" th:text="#{header.menu.home}">Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

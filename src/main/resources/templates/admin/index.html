@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Spring Blog - Admin - Dashboard</title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}" />
+</head>
+<body>
+	
+	<!-- Header -->
+	<th:block th:replace="util :: headerAdmin"></th:block>
+	
+	<th:block th:replace="util :: userInfo"></th:block>
+	
+	<!-- Content -->
+	<div id="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-6">
+					<h2 class="text-uppercase mt-5">Dashboard</h2>
+					<p>Welcome to the admin panel. You can manage your blog from here - <em>posts, categories, comments</em>, etc. Don't be afraid, have a look around and explore.</p>
+				</div>
+				<div class="col-6">
+					<h2 class="text-uppercase mt-5">Actions</h2>
+					<ul>
+						<li>
+							<a th:href="@{/admin/categories}" th:text="#{header.menu.admin.category}">Posts</a>
+							-
+							<a class="text-success" th:href="@{/admin/categories/add}" th:text="#{keyword.add}">Add</a>
+						</li>
+						<li>
+							<a th:href="@{/admin/posts}" th:text="#{header.menu.admin.post}">Posts</a>
+							-
+							<a class="text-success" th:href="@{/admin/posts/add}" th:text="#{keyword.add}">Add</a>
+						</li>
+						<li>
+							<a th:href="@{/admin/comments}" th:text="#{header.menu.admin.comment}">Comments</a>
+							-
+							<a class="text-success" th:href="@{/admin/comments/add}" th:text="#{keyword.add}">Add</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

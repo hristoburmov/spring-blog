@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Spring Blog - Admin - Categories</title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}" />
+</head>
+<body>
+	
+	<!-- Header -->
+	<th:block th:replace="util :: headerAdmin"></th:block>
+	
+	<th:block th:replace="util :: userInfo"></th:block>
+	
+	<!-- Content -->
+	<div id="content">
+		<div class="container">
+					
+			<!-- Posts -->
+			<div th:with="baseUrl = '/admin/categories'" class="mt-5">
+			
+				<div class="row">
+					<h2 class="col-10 mb-4 text-uppercase" th:text="#{heading.list.category}">Categories</h2>
+					<div class="col-2">
+						<a class="btn btn-success float-right" th:href="@{__${baseUrl}__/add}" th:text="#{keyword.add}">Add</a>
+					</div>
+				</div>
+				
+				<th:block th:replace="util :: success"></th:block>
+				
+				<!-- Search -->
+				<th:block th:replace="util :: search"></th:block>
+				
+				<!-- Empty -->
+				<div class="text-center mt-5" th:if="${page.content.empty}"><span th:text="#{phrase.category.null}">No categories available.</span><br /><span th:text="#{phrase.addEntry}">Use the top right button to add new entries.</span></div>
+				
+				<!-- Table -->
+				<div th:if="${!page.content.empty}">
+					
+					<div class="table-responsive" th:if="${!page.content.empty}">
+						<table class="table table-bordered mb-0">
+							<thead>
+								<tr class="d-flex">
+									<th class="col-9 text-uppercase" th:text="#{label.name}">Name</th>
+									<th class="col-1 text-uppercase text-center" th:text="#{label.post}">Post</th>
+									<th class="col-2 text-uppercase text-center" th:text="#{label.action}">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="d-flex" th:each="category : ${page.content}">
+									<td class="col-9 d-flex align-items-center" th:text="${category.name}">Category Name</td>
+									<td class="col-1 d-flex align-items-center justify-content-center" th:text="${#lists.size(category.posts)}">Post Count</td>
+									<td class="col-2 d-flex align-items-center justify-content-center">
+										<a class="btn btn-primary mr-1" th:href="@{__${baseUrl}__/edit/__${category.id}__}" th:text="#{keyword.edit}">Edit</a>
+										<form class="d-inline" th:action="@{__${baseUrl}__/delete/__${category.id}__}" th:method="delete">
+											<input type="submit" th:value="#{keyword.delete}" class="btn btn-danger btn-delete" />
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<!-- Pagination -->
+					<th:block th:replace="util :: pagination"></th:block>
+				
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+</body>
+</html>

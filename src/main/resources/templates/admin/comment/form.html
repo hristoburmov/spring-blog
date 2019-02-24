@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Spring Blog - Admin - Comment Form</title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}" />
+</head>
+<body>
+	
+	<!-- Header -->
+	<th:block th:replace="util :: headerAdmin"></th:block>
+	
+	<th:block th:replace="util :: userInfo"></th:block>
+	
+	<!-- Content -->
+	<div id="content">
+		<div class="container">
+			
+			<div th:with="baseUrl = '/admin/comments'" class="mt-5">
+				<div class="row">
+					<h2 class="col-10 mb-4 text-uppercase" th:text="#{heading.form.comment}">Comment Form</h2>
+					<div class="col-2">
+						<a class="btn btn-danger float-right" th:href="@{__${baseUrl}__}" th:text="#{keyword.back}">Back</a>
+					</div>
+				</div>
+				
+				<form th:object="${comment}" th:action="@{__${baseUrl}__/save}" method="post">
+					<div class="card bg-danger text-white p-2 mb-4" th:if="${posts.empty OR #fields.hasErrors()}">
+						<div class="text-center">
+							<p class="mb-0" th:errors="*{author}"></p>
+							<p class="mb-0" th:if="${posts.empty}">
+								<span th:text="#{posts.null}">Post list is empty</span>
+								<a class="bg-white text-danger pl-1 pr-1" th:href="@{/admin/posts/add}" th:text="#{keyword.add}">Add</a>
+							</p>
+							<p class="mb-0" th:errors="*{post}"></p>
+							<p class="mb-0" th:errors="*{content}"></p>
+						</div>
+					</div>
+					<input type="hidden" th:field="*{id}" />
+					<div class="form-row">
+						<div class="form-group col-6">
+							<label for="author" th:text="#{label.author} + '*'">Author*</label>
+							<input type="text" class="form-control" id="author" th:field="*{author}" th:classappend="${#fields.hasErrors('author')} ? border-danger" />
+						</div>
+						<div class="form-group col-6">
+							<label for="post" th:text="#{label.post} + '*'">Post*</label>
+							<select class="form-control" id="post" th:field="*{post}" th:classappend="${posts.empty OR #fields.hasErrors('post')} ? border-danger">
+								<option th:each="post : ${posts}" th:value="${{post}}" th:text="${post.title}"></option>
+							</select>
+						</div>
+						<div class="form-group col-12">
+							<label for="comment-content" th:text="#{label.content} + '*'">Content*</label>
+							<textarea class="form-control" id="comment-content" rows="4" th:field="*{content}" th:classappend="${#fields.hasErrors('content')} ? border-danger"></textarea>
+						</div>
+						<div class="form-group col-12">
+							<input type="submit" class="btn btn-success float-right" th:value="#{keyword.save}" />
+						</div>
+					</div>
+				</form>
+			</div>
+		
+		</div>
+	</div>
+	
+</body>
+</html>
