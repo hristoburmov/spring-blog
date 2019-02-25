@@ -12,11 +12,12 @@ A relatively simple blog made with the popular Java framework - Spring.
 * Search and pagination
 
 ### Installation
-1. Download this repository
-2. Extract the archive
+1. Download and extract [**STS (Spring Tool Suite)**](https://spring.io/tools3/sts/all)
+2. Clone this repository
 3. Create a MySQL database called **spring_blog** with collation *utf8mb4_unicode_ci*
-4. Import the SQL file from the extracted archive
-5. Import the project as a Maven project using Eclipse, IntelliJ or another Java IDE **(Eclipse is preferred)**
-6. Open **application.properties** (located in the src/main/resources directory), and change the username and password to match your MySQL credentials
-7. If using Eclipse, go to **Help -> Marketplace**, search for **Spring Tools 4**, install it and restart the IDE
-8. Right click the project and select **Run as -> Spring Boot App**
+4. Import the SQL file from the cloned project
+5. Open STS, click on **File -> Import**, search for **Existing Maven Projects** and select the cloned project directory
+6. Importing might take a while, so be patient and **wait for the green progress bar on the bottom right to disappear**
+7. Expand the newly imported project, **unfold the src/main/resources directory** and open the **application.properties** file that's inside
+8. Change the username and/or password to match your MySQL database credentials
+9. Right click the project and select **Run As -> Spring Boot App**
