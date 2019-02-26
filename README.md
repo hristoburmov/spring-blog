@@ -21,3 +21,8 @@ A relatively simple blog made with the popular Java framework - Spring.
 7. Expand the newly imported project, **unfold the src/main/resources directory** and open the **application.properties** file that's inside
 8. Change the username and/or password to match your MySQL database credentials
 9. Right click the project and select **Run As -> Spring Boot App**
+10. Go to [**http://localhost:8080**](http://localhost:8080) to see the blog in action
+
+### Users
+* Admin access: username **admin**, password **asdf12345**
+* Normal user: username **test**, password **test12345**
